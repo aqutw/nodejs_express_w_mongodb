@@ -8,10 +8,18 @@ var bodyParser = require('body-parser');
 var routes = require('./routes/index');
 var users = require('./routes/users');
 
+var fs = require('fs');
 var mongoose = require('mongoose');
 var app = express();
 
+
 mongoose.connect("mongodb://0.0.0.0/test002");
+console.log(__dirname);
+fs.readdirSync(__dirname+'/models').forEach(function(filename){
+    if(~filename.indexOf(".js")){
+        require(__dirname + '/models/' + filename);
+    }
+});
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -28,7 +36,6 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use('/', routes);
 app.use('/users', users);
 
-mongoose.model('posts', {content: String});
 app.get('/posts', function(req,res){
     mongoose.model('posts').find(function(err,posts){
         res.send(posts);
