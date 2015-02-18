@@ -3,7 +3,7 @@ var Schema = mongoose.Schema;
 
 var postsSchema = new Schema({
   content: String,
-  user: Schema.ObjectId
+  user: {type: Schema.ObjectId, ref: 'users'}
 });
 
 mongoose.model('posts', postsSchema);

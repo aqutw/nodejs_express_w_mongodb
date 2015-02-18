@@ -44,7 +44,9 @@ app.get('/posts', function(req,res){
 
 app.get('/posts/:userId', function(req,res){
     mongoose.model('posts').find({user:req.params.userId}, function(err,posts){
-        res.send(posts);
+        mongoose.model('posts').populate(posts, {path: 'user'}, function(err, posts){
+            res.send(posts);
+        })
     });
 });
 
