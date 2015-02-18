@@ -42,6 +42,12 @@ app.get('/posts', function(req,res){
     });
 });
 
+app.get('/posts/:userId', function(req,res){
+    mongoose.model('posts').find({user:req.params.userId}, function(err,posts){
+        res.send(posts);
+    });
+});
+
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
     var err = new Error('Not Found');
